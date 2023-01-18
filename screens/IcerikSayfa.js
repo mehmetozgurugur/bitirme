@@ -16,7 +16,7 @@ import { FontAwesome, } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import ItemsContainer from '../components/Containers/ItemsContainer';
 import CategoryD from './KategoriSayfaları/CategoryD';
-
+import { Feather } from '@expo/vector-icons';
 
 const IcerikSayfa = () => {
   const navigation = useNavigation();
@@ -33,7 +33,18 @@ const IcerikSayfa = () => {
       headerShown: true,
       
       headerTitle: '',
-
+      headerRight: () => (
+        <Feather 
+      style={{
+        marginRight:14,
+      }
+      }
+      name="search"
+       size={24} 
+       color="black" 
+       onPress = {() => navigation.navigate("SearchScreen")}
+       />
+        )
     })
   }, [])
 
@@ -133,7 +144,7 @@ const IcerikSayfa = () => {
             <ScrollView nestedScrollEnabled={true} horizontal={true} showsHorizontalScrollIndicator={false}>
             <View className="flex-row mt-4 items-center ">
               <ItemsContainer
-              onPress={() => navigation.navigate("ContentScreen")}
+                
                 key={"101"}
                 title="300 dönüm arsa"
                 ImageSrc={"https://cdn.pixabay.com/photo/2014/01/17/19/01/tree-247122_960_720.jpg"}

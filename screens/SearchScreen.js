@@ -13,14 +13,15 @@ import { Ionicons } from '@expo/vector-icons';
 
 const SearchScreen = () => {
   const navigation = useNavigation();
-  
+
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
+      headerTitle: 'aaa',
       headerLeft: () => (
         <Ionicons 
-        style={{marginLeft:10}}
+        style={{marginLeft:0}}
         name="ios-chevron-back-sharp"
          size={26} 
          color="black" 
@@ -29,12 +30,14 @@ const SearchScreen = () => {
       ),
     
     headerRight: () => (
+      
       <Ionicons 
-      style={{marginRight:10}}
+      // onPress={() => navigation.openDrawer()}
+      style={{marginRight:3}}
       name="menu" 
       size={26} 
       color="black" 
-      onPress={() => navigation.openDrawer()}
+      
       />
     ),
   })

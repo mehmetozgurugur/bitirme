@@ -8,53 +8,62 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
-
+  Alert
 } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
 import { LogoImage } from '../assets';
 import CustomInput from '../components/CustomInput/CustomInput';
 import CustomButton from '../components/CustomButton/CustomButton';
 import { useForm } from 'react-hook-form'
-import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import {initializeApp} from 'firebase/app'
 import { firebaseConfig } from '../firebase-config';
-
+import { TextInput } from 'react-native-gesture-handler';
 
 
 
 const HomeScreens = () => {
 
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  
+  const [email, setEmail] = React.useState(null)
+  const [password, setPassword] = React.useState(null)
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-
-  const handleSignIn = () => {
-
-    signInWithEmailAndPassword(auth,email, password)
-    .then(() => {
-      console.log('Signed In')
-      const user = userCredential.user;
-      console.log(user)
+  useEffect(()=> {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if(user){
+        navigation.navigate("Drawers")
+      }
     })
-    .catch(error =>
-      console.log(error)
-      )
-  }
 
+    return unsubscribe;
+  }, [])
 
+  const handleSignIn =  () => {
+            
+    signInWithEmailAndPassword(auth,email,password)
+    .then((userCredentials) => {
+      
+    
+            console.log('giriş yapıldı') 
+            const user = userCredentials.user;
+            console.log(user.email)
+         })
+    .catch(error =>                
+        alert(error.message)                
+        )
+        if (email === '' && password === ''){
+          Alert.alert('Bu alanlar boş bırakılamaz')
+      }
+        
+  
+}  
+    
 
-
-  const { control, handleSubmit, formState: { errors } } = useForm();
-  const onLogInPressed = data => {
-    navigation.navigate("Drawers")
-    console.log(data)
-
-  }
+  
   const onForgotPasswordPressed = () => 
   { navigation.navigate("ForgotPassword") }
 
@@ -85,30 +94,25 @@ const HomeScreens = () => {
               <Image
                 className="h-40 w-40 bg-white mb-6"
                 source={LogoImage} />
-              <CustomInput
-                onChangeText={(text) => setEmail(text) }
-                name="username"
-                placeholder="Kullanıcı Adı"
-                control={control}
-                rules={{
-                  required: 'Kullanıcı adını giriniz',
-                  className: "border border-red",
-                  minLength: { value: 4, message: 'En az 4 karakter olmalı' },
-                  maxLength: { value: 30, message: 'En az 30 fazla karakter olmalı' }
-
-                }}
-              />
-              <CustomInput
+                <TextInput 
+                value={email}
+                className="pl-4 bg-white w-80 h-10 justify-center mt-4  rounded-md  
+                border border-stone-700 } "
+                onChangeText={(text) => setEmail(text)}
+                placeholder="Email adresi"
+                />
+                <TextInput
+                value={password}
+                className="pl-4 bg-white w-80 h-10 justify-center mt-4  rounded-md  
+                border border-stone-700 } "
                 onChangeText={(text) => setPassword(text)}
-                name="password"
                 placeholder="Şifre"
                 secureTextEntry={true}
-                control={control}
-                rules={{ required: 'Şifrenizi giriniz', minLength: { value: 6, message: 'Şifre kısa' } }}
-              />
+                />
               <CustomButton
                 texta="Giriş"
-                onPress={handleSubmit(onLogInPressed)}
+                onPress={handleSignIn}
+                
               />
               <CustomButton
                 texta="Kayıt Ol"

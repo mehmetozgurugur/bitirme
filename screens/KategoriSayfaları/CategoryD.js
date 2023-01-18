@@ -1,19 +1,29 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, TextInput, TouchableOpacity,FlatList,Keyboard } from 'react-native'
+import React, {useState} from 'react'
 import CategoryContainer from '../../components/Containers/CategoryContainer'
-import { ScrollView } from 'react-native-gesture-handler'
+import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import SearchScreen from '../SearchScreen';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
-const CategoryScreen = () => {
+
+const CategoryScreen = ({ad,fiyat,yer,id}) => {
   const navigation = useNavigation();
+  const [data, setData] = useState()
+  
+
+
+   
   return (
-    <View className="bg-white ">
-      <TouchableOpacity
-        onPress={() => navigation.navigate("SearchScreen")} >
+    <View className="bg-white max-w-90 max-h-screen flex-1 ">
+      
+      <TouchableWithoutFeedback
+        onPress={ Keyboard.dismiss} 
+         
+      
+          
+           >
         <View
           className=" bg-white items-center relative mb-2 ">
           <Feather
@@ -35,13 +45,17 @@ const CategoryScreen = () => {
 
           </TextInput>
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
+            
+
       <View className="flex-row  mb-4 border border-black" >
         <View className="h-10  flex-1 border-r border-r-black justify-center items-center">
-          <View className="flex-row justify-center items-center " >
+          <TouchableOpacity 
+          
+          className="flex-row justify-center items-center " >
             <AntDesign name="menu-fold" size={12} color="black" />
             <Text className="text-[18px] pl-5">Filtrele</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View className="h-10  flex-1 justify-center items-center ">
           <View className="flex-row justify-center items-center">
@@ -50,14 +64,33 @@ const CategoryScreen = () => {
           </View>
         </View>
       </View>
-      <ScrollView className="">
-        <View className="">
-          <CategoryContainer />
-          <CategoryContainer />
-          <CategoryContainer />
-          <CategoryContainer />
+
+      
+
+      <ScrollView className="flex">
+        <View className=" flex-wrap flex-row m-2">
+          <CategoryContainer 
+          ad="200 donum arazi"
+          fiyat="100tl"
+          yer="Adana"
+          id="1"
+          />
+          <CategoryContainer 
+          ad="200 donum arazi"
+          fiyat="200tl"
+          yer="Mersin"
+          id="2"
+          />
+          <CategoryContainer 
+          ad="200 donum arazi"
+          fiyat="300tl"
+          yer="Ceyhan"
+          id="3"
+          />
+          
         </View>
       </ScrollView>
+      
     </View>
   )
 }

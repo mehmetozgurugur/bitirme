@@ -51,10 +51,7 @@ const CategoryScreen = () => {
         </View>
       </View>
       <ScrollView className="">
-        <View className="">
-          <CategoryContainer />
-          <CategoryContainer />
-          <CategoryContainer />
+        <View className="m-1">
           <CategoryContainer />
         </View>
       </ScrollView>

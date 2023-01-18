@@ -19,7 +19,7 @@ const CustomInput = ({
         control={control}
         name={name}
         rules={rules}
-        render={({ field: { value, onChange, onBlur }, fieldState: {error} }) => (
+        render={({ field: { value, onChangeText, onBlur }, fieldState: {error} }) => (
           <>
           <View 
           className="bg-white w-80 h-10 justify-center mt-4  rounded-md  
@@ -27,11 +27,11 @@ const CustomInput = ({
           <TextInput
             className="pl-4 flex-1" 
             value={value}
-            onChangeText={onChange}
+            onChangeText={onChangeText}
             onBlur={onBlur}
             placeholder={placeholder}
             secureTextEntry={secureTextEntry}
-            onPress={() => null}
+            
           /> 
           </View>
           {

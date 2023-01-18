@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { View, Text, Image, ScrollView, TouchableOpacity, } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { userImage } from '../assets';
@@ -6,13 +6,21 @@ import { useNavigation } from '@react-navigation/native'
 import { EvilIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import { getAuth} from "firebase/auth";
+import {initializeApp} from 'firebase/app'
+import { firebaseConfig } from '../firebase-config';
+import {collection, doc, getFirestore, addDoc,getDoc, Firestore } from "firebase/firestore"
+import { Value } from 'react-native-reanimated';
+import {create} from '../screens/SignUpScreen'
 
 
 const ProfileScreen = () => {
-
+  const db = getFirestore(app)
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
   const navigation = useNavigation();
-
+  
+  
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -34,7 +42,8 @@ const ProfileScreen = () => {
       ),
     })
   }, [])
-  
+
+
   return (
    
    <SafeAreaView>
@@ -45,8 +54,8 @@ const ProfileScreen = () => {
                   source={userImage}
                 />
               <View className="ml-4 justify-center ">
-                <Text className=" text-semibold text-[26px]"> Özgür UĞUR</Text>
-                <Text className="pt-1">  @ozgurugur</Text>
+                <Text className=" text-semibold text-[26px]"> BURAYA</Text>
+                <Text className="pt-1">{auth.currentUser?.email}</Text>
               </View>
             </View>
         </View>

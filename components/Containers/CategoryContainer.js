@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 
 
 
-const CategoryContainer = () => {
+const CategoryContainer = ({ad,fiyat,yer}) => {
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -15,24 +15,19 @@ const CategoryContainer = () => {
     })
     }, [])
   return (
-    <View className="flex-row">
-      <View className="h-70  flex-1 border border-gray-300 justify-center items-center ">
+      
+      <View className="h-%60 w-%50 border border-gray-600 m-1 ">
         <Image source={differentImage}
-          className=" mt-1 w-40 h-60"
+          className="m-1 p-1 w-40 h-60 justify-center items-center"
         />
-        <View>
-          <Text className="text-[18px] ">Satıcı </Text>
-          <Text className="text-gray-600 mt-2">Cüzdan</Text>
+        <View className>
+          <Text className="text-[15px] ml-2 ">{ad} </Text>
+          <Text className="text-gray-600 mt-2 ml-2">{fiyat}</Text>
+          <Text className="text-gray-600 mt-2 ml-2">{yer}</Text>
         </View>
       </View>
-      <View className="h-70  flex-1 justify-center items-center border border-gray-300">
-        <Image source={differentImage}
-          className=" mt-1 w-40 h-60"
-        />
-        <Text className="text-[18px]">10 </Text>
-        <Text className="text-gray-600 mt-2">Siparişlerim</Text>
-      </View>
-    </View>
+     
+    
   )
 }
 
