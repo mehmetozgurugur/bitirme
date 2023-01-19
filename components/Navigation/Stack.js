@@ -13,7 +13,7 @@ import CustomDrawer from './CustomDrawer';
 import SearchScreen from '../../screens/SearchScreen';
 import NotificationScreen from '../../screens/NotificationScreen';
 import CategoryD from '../../screens/KategoriSayfaları/CategoryD'
-
+import AddProduct from '../../screens/KategoriSayfaları/AddProduct';
 
 
 
@@ -46,6 +46,7 @@ const Stack = createNativeStackNavigator();
         <Stack.Screen name="Notification" component={NotificationScreen} />  
         <Stack.Screen name="CategoryD" component={CategoryD} />
         <Stack.Screen name="BottomMenu"  component={BottomMenu}/> 
+        <Stack.Screen name='AddProduct' component={AddProduct}/>
       </Stack.Navigator>
       
   )

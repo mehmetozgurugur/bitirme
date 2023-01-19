@@ -1,12 +1,20 @@
 import { View, Text, Image, TextInput } from 'react-native'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { differentImage } from '../../assets'
 import { useNavigation } from '@react-navigation/native'
-
+import { getProductDocuments } from "../../firebase/firebaseAuth";
 
 
 const CategoryContainer = ({ad,fiyat,yer}) => {
   const navigation = useNavigation();
+  const [productData, setProductData] = useState()
+  
+ 
+  getProductDocuments().then(() => {
+    
+      setProductData(productData);
+    
+  });
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -21,9 +29,15 @@ const CategoryContainer = ({ad,fiyat,yer}) => {
           className="m-1 p-1 w-40 h-60 justify-center items-center"
         />
         <View className>
-          <Text className="text-[15px] ml-2 ">{ad} </Text>
-          <Text className="text-gray-600 mt-2 ml-2">{fiyat}</Text>
-          <Text className="text-gray-600 mt-2 ml-2">{yer}</Text>
+          <Text 
+          value={ad}
+          className="text-[15px] ml-2 ">{productData?.name} </Text>
+          <Text 
+          value={fiyat}
+          className="text-gray-600 mt-2 ml-2">{productData?.prize}</Text>
+          <Text 
+          value={yer}
+          className="text-gray-600 mt-2 ml-2">{productData?.address}</Text>
         </View>
       </View>
      

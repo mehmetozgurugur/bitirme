@@ -6,14 +6,19 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-
+import { getProductDocuments } from "../../firebase/firebaseAuth";
 
 const CategoryScreen = ({ad,fiyat,yer,id}) => {
   const navigation = useNavigation();
-  const [data, setData] = useState()
+  const [productData, setProductData] = useState()
   
-
-
+ 
+  getProductDocuments().then(() => {
+    
+      setProductData(productData);
+    
+  });
+  
    
   return (
     <View className="bg-white max-w-90 max-h-screen flex-1 ">
@@ -70,7 +75,7 @@ const CategoryScreen = ({ad,fiyat,yer,id}) => {
       <ScrollView className="flex">
         <View className=" flex-wrap flex-row m-2">
           <CategoryContainer 
-          ad="200 donum arazi"
+          ad={productData?.name}
           fiyat="100tl"
           yer="Adana"
           id="1"

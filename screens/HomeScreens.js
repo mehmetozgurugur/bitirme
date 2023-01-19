@@ -18,8 +18,7 @@ import CustomInput from '../components/CustomInput/CustomInput';
 import CustomButton from '../components/CustomButton/CustomButton';
 import { useForm } from 'react-hook-form'
 import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
-import {initializeApp} from 'firebase/app'
-import { firebaseConfig } from '../firebase-config';
+import { auth } from '../firebase/firebaseAuth';
 import { TextInput } from 'react-native-gesture-handler';
 
 
@@ -29,8 +28,7 @@ const HomeScreens = () => {
   
   const [email, setEmail] = React.useState(null)
   const [password, setPassword] = React.useState(null)
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+
 
   useEffect(()=> {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -134,4 +132,3 @@ const HomeScreens = () => {
 }
 
 export default HomeScreens
-
