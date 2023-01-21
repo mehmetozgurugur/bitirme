@@ -8,9 +8,7 @@ import { useNavigation } from '@react-navigation/native'
 import { getAuth} from "firebase/auth";
 import {initializeApp} from 'firebase/app'
 import { firebaseConfig } from '../../firebase-config';
-
-import { getUserDocuments } from '../../firebase/firebaseAuth'
-
+import { auth, db, getUserDocuments } from "../../firebase/firebaseAuth";
 
 
 const CustomDrawer = ( props, {data}) => {
@@ -48,7 +46,7 @@ const CustomDrawer = ( props, {data}) => {
     <View className="flex-1 bg-green-100  " >
       <DrawerContentScrollView  {...props} >
         <View className="flex-row bg-green-200 h-[120px] items-center ">
-          <Image source={userImage} className="ml-5 w-20 h-20" />
+          <Image source={{uri :userData?.image}} className="rounded-full ml-5 w-20 h-20" />
             <View className="ml-4">
             <Text
             className="text-[22px]"

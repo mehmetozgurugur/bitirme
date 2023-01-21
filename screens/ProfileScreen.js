@@ -1,23 +1,13 @@
 import React, { useState, useLayoutEffect } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { userImage } from "../assets";
 import { useNavigation } from "@react-navigation/native";
 import { EvilIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { v4 as uuidv4 } from 'uuid';
+import { auth, getUserDocuments } from "../firebase/firebaseAuth";
 
-import {
-  collection,
-  doc,
-  getFirestore,
-  addDoc,
-  getDoc,
-  Firestore,
-} from "firebase/firestore";
-import { auth, db, getUserDocuments } from "../firebase/firebaseAuth";
-import * as ImagePicker from 'expo-image-picker';
 
 
 
@@ -27,29 +17,7 @@ const ProfileScreen = () => {
   const navigation = useNavigation();
 
 
-  const pickImage = async () => {
-        
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    console.log(result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  }; 
-
   getUserDocuments().then((users) => {
-    /*
-    incase sensitive şekilde user varsa user içerisindekilerin emailini
-    auth.currentUser?.email ile karşılaştırıp match eden değeri userData içerisine atıyoruz.
-    ama tabi bu obje olacak find methodu kullanabiliriz
-    */
     if (users) {
       const user = users.find(
         (user) =>
@@ -88,10 +56,10 @@ const ProfileScreen = () => {
       <ScrollView>
         <View>
           <View className="ml-6 mt-1 flex-row">
-            <TouchableOpacity onPress={pickImage} >
+            <TouchableOpacity  >
             <Image
               className="w-20 h-20  rounded-md items-center justify-center "
-              source={{uri: image}}
+              source={{uri :userData?.image}}
             /></TouchableOpacity>
             <View className="ml-4 justify-center ">
               <Text className=" text-semibold text-[26px]"> {userData?.displayName}</Text>

@@ -13,13 +13,8 @@ import {
   } from "react-native";
   import React, { useLayoutEffect, useState } from "react";
   import { useNavigation } from "@react-navigation/native";
-  import { RegisterImage } from "../assets";
-  import CustomInput from "../components/CustomInput/CustomInput";
   import CustomButton from "../components/CustomButton/CustomButton";
-  import { useForm } from "react-hook-form";
-  import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-  import { initializeApp } from "firebase/app";
-  import { firebaseConfig } from "../firebase-config";
+  import { createUserWithEmailAndPassword } from "firebase/auth"; 
   import { TextInput } from "react-native-gesture-handler";
   import { collection, doc, getFirestore, addDoc } from "firebase/firestore";
   import { auth, createUserDocumentFromAuth } from "../firebase/firebaseAuth";
@@ -38,9 +33,7 @@ import {
     const [image, setImage] = useState(null);
     const [isLogin, setIsLogin] = useState("");
   
-    // const { control, handleSubmit, watch,  formState: { errors } } = useForm();
-    // const EMAIL_REGEX =   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    // const pwd = watch ('password')
+    
     const pickImage = async () => {
       // No permissions request is necessary for launching the image library
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -83,6 +76,7 @@ import {
         email: email,
         phoneNumber: phoneNumber,
         city: city,
+        image: image,
       });
     };
    

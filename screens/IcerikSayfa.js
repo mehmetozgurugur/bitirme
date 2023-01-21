@@ -10,13 +10,12 @@ import React, { useLayoutEffect, useState } from 'react'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { useNavigation } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { aracImage, ilacImage, tarlaImage, urunImage, userImage } from '../assets';
+import { aracImage, ilacImage, tarlaImage, urunImage } from '../assets';
 import MenuContainer from '../components/Containers/MenuContainer';
 import { FontAwesome, } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
 import ItemsContainer from '../components/Containers/ItemsContainer';
-import CategoryD from './KategoriSayfaları/CategoryD';
 import { Feather } from '@expo/vector-icons';
+import { auth, getUserDocuments } from "../firebase/firebaseAuth";
 
 const IcerikSayfa = () => {
   const navigation = useNavigation();
@@ -24,8 +23,18 @@ const IcerikSayfa = () => {
   const [isLoading, setisLoading] = useState(false);
   const [mainData, setmainData] = useState([]);
   const [Root, setRoot] = useState(true);
+  const [userData, setUserData] = React.useState(null);
 
-
+  getUserDocuments().then((users) => {
+   
+    if (users) {
+      const user = users.find(
+        (user) =>
+          user?.email?.toLowerCase() === auth.currentUser?.email?.toLowerCase()
+      );
+      setUserData(user);
+    }
+  });
 
   //Header kapatmak için
   useLayoutEffect(() => {
@@ -55,12 +64,10 @@ const IcerikSayfa = () => {
       <View className="flex-row items-center ml-5 mt-2">
         <TouchableOpacity
           onPress={() => navigation.navigate("Profil")} >
-
-          <View className="w-12 h-12  rounded-md items-center justify-center shadow-lg">
-            <Image source={userImage}
-              className="w-full h-full rounded-md object-cover"
+            <Image
+              className="w-16 h-16  rounded-full items-center justify-center "
+              source={{uri :userData?.image}}
             />
-          </View>
         </TouchableOpacity>
         <View>
           <Text className="text-[20px] font-bold"> Aradığınız ziraat ürününe</Text>
@@ -96,23 +103,30 @@ const IcerikSayfa = () => {
 
 
             <View className="flex-row items-center px-6 mt-4 justify-between   ">
-            
+              <TouchableOpacity 
+              onPress={()=> navigation.navigate("CategoryArazi")}>
               <MenuContainer
-                 onPress={()=> navigation.navigate("CategoryD")}
-                key={"arazi"}
+               
+                key={"araz"}
                 title="Araziler"
-                ImageSrc={tarlaImage}
-                
+                ImageSrc={tarlaImage}  
                 type={type}
                 setType={setType}
               />
+              </TouchableOpacity>
+              <TouchableOpacity
+              onPress={()=> navigation.navigate("Categoryilac")}
+              >
               <MenuContainer
                 key={"ilaclar"}
                 title="İlaçlar"
                 ImageSrc={ilacImage}
                 type={type}
                 setType={setType}
-              />
+              /></TouchableOpacity>
+              <TouchableOpacity
+              onPress={()=> navigation.navigate("CategoryUrun")}
+              >
               <MenuContainer
                 key={"urunler"}
                 title="Ürünler"
@@ -120,13 +134,16 @@ const IcerikSayfa = () => {
                 type={type}
                 setType={setType}
               />
+              </TouchableOpacity>
+              <TouchableOpacity
+              onPress={()=> navigation.navigate("CategoryArac")}>
               <MenuContainer
                 key={"araclar"}
                 title="Araçlar"
                 ImageSrc={aracImage}
                 type={type}
                 setType={setType}
-              />
+              /></TouchableOpacity>
             </View>
           </ScrollView>
 

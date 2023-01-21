@@ -1,20 +1,28 @@
-import { View, Text, ScrollView, Image, TouchableOpacity, ViewPagerAndroidBase } from 'react-native'
-import React, { useLayoutEffect } from 'react'
+import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native'
+import React, { useLayoutEffect,useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Entypo } from '@expo/vector-icons';
 import { favImage } from '../assets';
 import { FontAwesome } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-
+import { getProductAracDocuments } from "../firebase/firebaseAuth";
 
 
 const ContentScreen = ({ }) => {
     const navigation = useNavigation();
+    const [productAracData, setProductAracData] = useState();
+    
+     
+
+    getProductAracDocuments().then((productArac) => {
+        setProductAracData(productArac);
+    });
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown: true,
-            headerTitle:''
+            headerTitle: ''
         })
     }, [])
     return (
@@ -23,7 +31,7 @@ const ContentScreen = ({ }) => {
                 <View className="relative  shadow-lg">
                     <Image className="w-full h-60 object-cover rounded-2xl"
                         source={
-                            { uri: 'https://cdn.pixabay.com/photo/2014/01/17/19/01/tree-247122_960_720.jpg' }
+                            { uri: productAracData?.image }
                         }
                     />
                     <View className="absolute flex-row inset-x-0 top-2 justify-between px-4">
@@ -74,7 +82,7 @@ const ContentScreen = ({ }) => {
 
                         <View>
                             <Text className="text-[#515151]" > Fiyat </Text>
-                            <Text className="text-[#515151]" > 5.000.000 </Text>
+                            <Text className="text-[#515151]" > {productAracData?.prize} </Text>
                         </View>
                     </View>
 
@@ -97,24 +105,24 @@ const ContentScreen = ({ }) => {
 
                 <View className="space-y-2 mt-4 bg-gray-200 rounded-2xl px-4 py-2">
                     <View className="flex-row space-x-3 items-center">
-                    <FontAwesome name="phone" size={24} color="black" />
-                    <Text className="text-lg">+90 546 935 04 69 </Text>
+                        <FontAwesome name="phone" size={24} color="black" />
+                        <Text className="text-lg">+90 546 935 04 69 </Text>
                     </View>
 
-                
 
-                
+
+
                     <View className="flex-row space-x-3 items-center">
-                    <Feather name="mail" size={24} color="black" />
-                    <Text className="text-lg">ozgurugur7@outlook.com </Text>
+                        <Feather name="mail" size={24} color="black" />
+                        <Text className="text-lg">ozgurugur7@outlook.com </Text>
                     </View>
 
-                
 
-                
+
+
                     <View className="flex-row space-x-3 items-center">
-                    <FontAwesome name="location-arrow" size={24} color="black" />
-                    <Text className="text-lg"> Burhaniye mahallesi 105 sokak Ceyhan/Adana  </Text>
+                        <FontAwesome name="location-arrow" size={24} color="black" />
+                        <Text className="text-lg"> Burhaniye mahallesi 105 sokak Ceyhan/Adana  </Text>
                     </View>
 
                 </View>

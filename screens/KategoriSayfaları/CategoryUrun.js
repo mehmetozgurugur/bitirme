@@ -1,34 +1,35 @@
-import { View, Text, TextInput, TouchableOpacity,FlatList,Keyboard } from 'react-native'
-import React, {useState} from 'react'
+import { View, Text, TextInput, TouchableOpacity, FlatList, Keyboard } from 'react-native'
+import React, { useState } from 'react'
 import CategoryContainer from '../../components/Containers/CategoryContainer'
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import { getProductDocuments } from "../../firebase/firebaseAuth";
+import { getProductUrunDocuments } from "../../firebase/firebaseAuth";
 
-const CategoryScreen = ({ad,fiyat,yer,id}) => {
+const CategoryUrun = ({ ad, fiyat, yer, id }) => {
   const navigation = useNavigation();
-  const [productData, setProductData] = useState()
-  
- 
-  getProductDocuments().then(() => {
-    
-      setProductData(productData);
-    
+  const [productUrunData, setProductUrunData] = useState()
+
+
+  getProductUrunDocuments().then((ProductUrun) => {
+
+    setProductUrunData(ProductUrun);
+
+
   });
-  
-   
+
+
   return (
     <View className="bg-white max-w-90 max-h-screen flex-1 ">
-      
+
       <TouchableWithoutFeedback
-        onPress={ Keyboard.dismiss} 
-         
-      
-          
-           >
+        onPress={Keyboard.dismiss}
+
+
+
+      >
         <View
           className=" bg-white items-center relative mb-2 ">
           <Feather
@@ -51,53 +52,48 @@ const CategoryScreen = ({ad,fiyat,yer,id}) => {
           </TextInput>
         </View>
       </TouchableWithoutFeedback>
-            
+
 
       <View className="flex-row  mb-4 border border-black" >
         <View className="h-10  flex-1 border-r border-r-black justify-center items-center">
-          <TouchableOpacity 
-          
-          className="flex-row justify-center items-center " >
+          <TouchableOpacity
+
+            className="flex-row justify-center items-center " >
             <AntDesign name="menu-fold" size={12} color="black" />
             <Text className="text-[18px] pl-5">Filtrele</Text>
           </TouchableOpacity>
         </View>
+
         <View className="h-10  flex-1 justify-center items-center ">
-          <View className="flex-row justify-center items-center">
-            <FontAwesome name="sort" size={12} color="black" />
-            <Text className="text-[18px] pl-5 ">Sırala </Text>
-          </View>
+          <TouchableOpacity>
+            <View className="flex-row justify-center items-center">
+              <FontAwesome name="sort" size={12} color="black" />
+              <Text className="text-[18px] pl-5 ">Sırala </Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
 
-      
+
+
 
       <ScrollView className="flex">
         <View className=" flex-wrap flex-row m-2">
-          <CategoryContainer 
-          ad={productData?.name}
-          fiyat="100tl"
-          yer="Adana"
-          id="1"
-          />
-          <CategoryContainer 
-          ad="200 donum arazi"
-          fiyat="200tl"
-          yer="Mersin"
-          id="2"
-          />
-          <CategoryContainer 
-          ad="200 donum arazi"
-          fiyat="300tl"
-          yer="Ceyhan"
-          id="3"
-          />
-          
+          {productUrunData?.map((item, index) => (
+            <CategoryContainer
+              fotograf={{uri: item?.image}}
+              ad={item?.Name}
+              fiyat={item?.prize}
+              yer={item?.address}
+              id={index}
+            />
+          ))}
+
         </View>
       </ScrollView>
-      
+
     </View>
   )
 }
 
-export default CategoryScreen
+export default CategoryUrun

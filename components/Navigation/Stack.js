@@ -12,8 +12,11 @@ import BottomMenu from './BottomMenu';
 import CustomDrawer from './CustomDrawer';
 import SearchScreen from '../../screens/SearchScreen';
 import NotificationScreen from '../../screens/NotificationScreen';
-import CategoryD from '../../screens/KategoriSayfaları/CategoryD'
 import AddProduct from '../../screens/KategoriSayfaları/AddProduct';
+import CategoryScreenIlac from '../../screens/KategoriSayfaları/Categoryilac';
+import CategoryArazi from '../../screens/KategoriSayfaları/CategoryArazi';
+import CategoryUrun from '../../screens/KategoriSayfaları/CategoryUrun';
+import CategoryArac from '../../screens/KategoriSayfaları/CategoryArac';
 
 
 
@@ -44,7 +47,10 @@ const Stack = createNativeStackNavigator();
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} /> 
         <Stack.Screen name="SearchScreen" component={SearchScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Notification" component={NotificationScreen} />  
-        <Stack.Screen name="CategoryD" component={CategoryD} />
+        <Stack.Screen name="Categoryilac" component={CategoryScreenIlac} />
+        <Stack.Screen name="CategoryArazi" component={CategoryArazi} />
+        <Stack.Screen name="CategoryUrun" component={CategoryUrun} />
+        <Stack.Screen name="CategoryArac" component={CategoryArac} />
         <Stack.Screen name="BottomMenu"  component={BottomMenu}/> 
         <Stack.Screen name='AddProduct' component={AddProduct}/>
       </Stack.Navigator>

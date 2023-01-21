@@ -53,3 +53,26 @@ export const getProductDocuments = async () => {
 
   return productList;
 };
+
+export const getProductIlacDocuments = async () => {
+  const productIlacRef = collection(db, "productIlac");
+  const productIlacSnapshot = await getDocs(productIlacRef);
+  const productIlacList = productIlacSnapshot.docs.map((doc) => doc.data());
+
+  return productIlacList;
+};
+
+export const getProductAracDocuments = async () => {
+  const productAracRef = collection(db, "ProductArac");
+  const productAracSnapshot = await getDocs(productAracRef);
+  const productAracList = productAracSnapshot.docs.map((doc) => doc.data());
+
+  return productAracList;
+};
+export const getProductUrunDocuments = async () => {
+  const productUrunRef = collection(db, "ProductUrun");
+  const productUrunSnapshot = await getDocs(productUrunRef);
+  const productUrunList = productUrunSnapshot.docs.map((doc) => doc.data());
+
+  return productUrunList;
+};
