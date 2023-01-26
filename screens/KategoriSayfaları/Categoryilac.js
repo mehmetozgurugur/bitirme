@@ -80,15 +80,30 @@ const CategoryScreenIlac = ({ ad, fiyat, yer, id }) => {
       <ScrollView className="flex">
         <View className=" flex-wrap flex-row m-2">
           {productIlacData?.map((item, index) => (
-            <CategoryContainer
-              fotograf={{uri: item?.image}}
-              ad={item?.Name}
-              fiyat={item?.prize}
-              yer={item?.address}
-              id={index}
-            />
+            <TouchableOpacity
+              key={index}
+              onPress={() => {
+                navigation.navigate("ContentScreen", {
+                  id: item.id,
+                  Name: item.Name,
+                  prize: item.prize,
+                  address: item.address,
+                  image: item.image,
+                  description: item.description,
+                  category: item.category,
+                  user: item.user,
+                });
+              }}
+            >
+              <CategoryContainer
+                fotograf={{ uri: item?.image }}
+                ad={item?.Name}
+                fiyat={item?.prize}
+                yer={item?.address}
+                id={index}
+              />
+            </TouchableOpacity>
           ))}
-
         </View>
       </ScrollView>
 

@@ -10,7 +10,6 @@ import { auth, getUserDocuments } from "../firebase/firebaseAuth";
 
 
 
-
 const ProfileScreen = () => {
   const [userData, setUserData] = React.useState(null);
   const [image, setImage] = useState(null);
@@ -52,7 +51,7 @@ const ProfileScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="flex-1" >
       <ScrollView>
         <View>
           <View className="ml-6 mt-1 flex-row">
@@ -87,7 +86,7 @@ const ProfileScreen = () => {
             <Text className="ml-2">{userData?.email}</Text>
           </View>
         </View>
-        <View className="flex-row border border-black mt-2  ">
+        <View className="flex-row border border-black m-2 rounded-lg ">
           <View className="h-28  flex-1  border-r border-r-black justify-center items-center">
             <Text className="text-[18px]">200₺ </Text>
             <Text className="text-gray-600 mt-2">Cüzdan</Text>
@@ -97,44 +96,52 @@ const ProfileScreen = () => {
             <Text className="text-gray-600 mt-2">Siparişlerim</Text>
           </View>
         </View>
-        <View className="mt-2">
-          <TouchableOpacity>
-            <View className="ml-8  flex-row items-center ">
-              <MaterialIcons name="favorite-border" size={24} color="#04B9A3" />
-              <Text className="ml-2 text-[16px]  text-xl ">Favorileriniz </Text>
+        <View className="flex-1 justify-center rounded-lg  m-2 border border-black">
+          <View className="">
+            <View>
+              <Text
+              className="ml-2 mb-1 text-[22px]"
+              >Hesabım</Text>
+            </View>
+            <View className="grid grid-cols-1 divide-y divide-black">
+          <TouchableOpacity
+          onPress={()=> navigation.navigate("FavScreen")}
+          >
+            <View className="ml-2  flex-row items-center ">
+              <MaterialIcons name="favorite-border" size={24} color="black" />
+              <Text className="ml-2 text-[16px]  text-xl  ">Favorileriniz </Text>
             </View>
           </TouchableOpacity>
-
+        
           <TouchableOpacity
           onPress={()=> navigation.navigate("AddProduct")}>
-            <View className="ml-8 mt-2  flex-row items-center ">
-              <MaterialIcons name="payments" size={24} color="#04B9A3" />
+            <View className="ml-2 mt-2  flex-row items-center ">
+            <Ionicons name="add" size={24} color="black" />
               <Text className="ml-2 text-[16px] text-xl ">Ürün Ekle </Text>
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-          >
-            <View className="ml-8 mt-2 flex-row items-center ">
-              <EvilIcons name="location" size={28} color="#04B9A3" />
-              <Text className="ml-2 text-[16px] text-xl">Adreslerim </Text>
-            </View>
-          </TouchableOpacity>
 
-          <TouchableOpacity>
-            <View className="ml-8 mt-2 flex-row items-center ">
-              <MaterialIcons name="support-agent" size={28} color="#04B9A3" />
+          <TouchableOpacity
+          onPress={()=> navigation.navigate("HelpScreen")}
+          >
+            <View className="ml-2 mt-2 flex-row items-center ">
+              <MaterialIcons name="support-agent" size={28} color="black" />
 
               <Text className="ml-2 text-[16px]  text-xl">Destek </Text>
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity>
-            <View className="ml-8 mt-2 flex-row items-center ">
-              <Ionicons name="settings-outline" size={28} color="#04B9A3" />
+          <TouchableOpacity
+          onPress={()=> navigation.navigate("EditProfile")}
+          >
+            <View className="ml-2 mt-2 flex-row items-center ">
+              <Ionicons name="settings-outline" size={28} color="black" />
               <Text className="ml-2 text-[16px] text-xl">Ayarlar </Text>
             </View>
           </TouchableOpacity>
+          </View>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

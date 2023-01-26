@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { collection, doc, getFirestore, addDoc } from "firebase/firestore";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
@@ -14,14 +14,15 @@ const AddProduct = () => {
   const [address, setAddress] = React.useState("");
   const [image, setImage] = useState(null);
   const [selected, setSelected] = React.useState("");
+  const [description, setDescription] = React.useState("");
 
   const data = [
-    {key:'1', value:'Arazi'},
-    {key:'2', value:'İlaç'},
-    {key:'3', value:'Ürün'},
-    {key:'4', value:'Araç'},
-   
-];
+    { key: '1', value: 'Arazi' },
+    { key: '2', value: 'İlaç' },
+    { key: '3', value: 'Ürün' },
+    { key: '4', value: 'Araç' },
+
+  ];
 
 
 
@@ -42,51 +43,68 @@ const AddProduct = () => {
   }
 
   const AddProductInfo = async () => {
-    if (image === "" || Name === "" || prize === "" || address === "" || selected==="") {
+    if (image === "" || Name === "" || prize === "" || address === "" || selected === "" || description === "") {
       console.log("tıkladın")
-      alert("Hepsi doldurulmalı");
+      Alert.alert("Hata", "Hepsi doldurulmalı"
+
+      );
     }
     else {
-
-      const db = getFirestore();
-      if (selected === "Arazi"){
-      await addDoc(collection(db, "product"), {
-        Name: Name,
-        prize: prize,
-        address: address,
-        image: image,
-      });
-    }else if (selected==="İlaç"){
-      await addDoc(collection(db, "productIlac"), {
-        Name: Name,
-        prize: prize,
-        address: address,
-        image: image,
-      });
-
-    }else if (selected==="Ürün"){
-      await addDoc(collection(db, "ProductUrun"), {
-        Name: Name,
-        prize: prize,
-        address: address,
-        image: image,
-      });
-    }else if (selected==="Araç"){
-      await addDoc(collection(db, "ProductArac"), {
-        Name: Name,
-        prize: prize,
-        address: address,
-        image: image,
-      });
-    }
       navigation.replace("AddProduct")
       alert("Ürün başarılı şekilde eklendi")
+
+      const db = getFirestore();
+      if (selected === "Arazi") {
+        navigation.navigate("CategoryArazi")
+        await addDoc(collection(db, "product"), {
+          Name: Name,
+          prize: prize,
+          address: address,
+          image: image,
+          description: description,
+        });
+      } else if (selected === "İlaç") {
+        navigation.navigate("Categoryilac")
+        await addDoc(collection(db, "productIlac"), {
+          Name: Name,
+          prize: prize,
+          address: address,
+          image: image,
+          description: description,
+        });
+
+      } else if (selected === "Ürün") {
+        navigation.navigate("CategoryUrun")
+        await addDoc(collection(db, "ProductUrun"), {
+          Name: Name,
+          prize: prize,
+          address: address,
+          image: image,
+          description: description,
+        });
+      } else if (selected === "Araç") {
+        navigation.navigate("CategoryArac")
+        await addDoc(collection(db, "ProductArac"), {
+          Name: Name,
+          prize: prize,
+          address: address,
+          image: image,
+          description: description,
+        });
+      }
+
 
     }
 
 
   };
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+      headerTitle: "",
+    });
 
+  });
 
 
   return (
@@ -95,49 +113,62 @@ const AddProduct = () => {
       className="flex-1 "
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView className="flex-1 bg-white ">
-          <View className="flex-1 bg-white justify-center  mt-10 " >
-            <View className="flex-1 relative items-center ">
+        <ScrollView className="flex-1 bg-gray-50 ">
+          <View className="flex-1 bg-white justify-center items-center mt-20" >
+            <View className="flex-1 items-center ">
 
-              <View className="flex-1 h-40 w-80 border border-black">
+              <View className="flex-1 mt-2 h-40 w-80 border border-black">
+                <Image className="h-40 w-80 " source={{ uri: image }} />
+                <TouchableOpacity onPress={pickImage}  >
+                  <View
 
-                <TouchableOpacity onPress={pickImage} >
+                    className="bg-[#50e7c9] w-30 h-6 items-center justify-center mt-3 rounded-lg " >
 
-                  <Image className="h-40 w-80 " source={{ uri: image }} />
+                    <Text className="text-[#163d35]"> Bir fotoğraf seçin </Text>
+
+                  </View>
                 </TouchableOpacity>
               </View>
 
-              <View className="mt-2">
-              <SelectList 
-              
-              setSelected={(val) => setSelected(val)} 
-             data={data} 
-              save="value"
-             />
+              <View className="mt-12">
+                <SelectList
 
-              <TextInput
-                value={Name}
-                className="pl-4 bg-white w-80 h-10 justify-center mt-4  rounded-md  
-                  border border-stone-700 } "
-                onChangeText={(text) => setName(text)}
-                placeholder="Ürün Adı"
-              />
-              <TextInput
-                value={prize}
-                className="pl-4 bg-white w-80 h-10 justify-center mt-4  rounded-md  
-                  border border-stone-700 } "
-                onChangeText={(text) => setPrize(text)}
-                placeholder="Fiyat"
-              />
-              <TextInput
-                value={address}
-                className="pl-4 bg-white w-80 h-10 justify-center mt-4  rounded-md  
-                  border border-stone-700 } "
-                onChangeText={(text) => setAddress(text)}
-                placeholder="Adres"
-              />
+                  setSelected={(val) => setSelected(val)}
+                  data={data}
+                  save="value"
+                />
 
-              <CustomButton texta="Ürün Ekle" onPress={AddProductInfo} />
+                <TextInput
+                  value={Name}
+                  className="pl-4 bg-white w-80 h-10 justify-center mt-4  rounded-md  
+                  border border-stone-700 } "
+                  onChangeText={(text) => setName(text)}
+                  placeholder="Ürün Adı"
+                />
+                <TextInput
+                  value={prize}
+                  className="pl-4 bg-white w-80 h-10 justify-center mt-4  rounded-md  
+                  border border-stone-700 } "
+                  onChangeText={(text) => setPrize(text)}
+                  placeholder="Fiyat"
+                />
+                <TextInput
+                  value={description}
+                  className="pl-4 bg-white w-80 h-10 justify-center mt-4  rounded-md  
+                  border border-stone-700 } "
+                  onChangeText={(text) => setDescription(text)}
+                  placeholder="Açıklama"
+                />
+                <TextInput
+                  value={address}
+                  className="pl-4 bg-white w-80 h-10 justify-center mt-4  rounded-md  
+                  border border-stone-700 } "
+                  onChangeText={(text) => setAddress(text)}
+                  placeholder="Adres"
+                />
+
+                <CustomButton
+                  texta="Ürün Ekle" onPress={AddProductInfo} />
               </View>
             </View>
           </View>

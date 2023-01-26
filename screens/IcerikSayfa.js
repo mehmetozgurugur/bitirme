@@ -17,6 +17,7 @@ import ItemsContainer from '../components/Containers/ItemsContainer';
 import { Feather } from '@expo/vector-icons';
 import { auth, getUserDocuments } from "../firebase/firebaseAuth";
 
+
 const IcerikSayfa = () => {
   const navigation = useNavigation();
   const [type, setType] = useState("arazi");
@@ -24,9 +25,9 @@ const IcerikSayfa = () => {
   const [mainData, setmainData] = useState([]);
   const [Root, setRoot] = useState(true);
   const [userData, setUserData] = React.useState(null);
+ 
 
   getUserDocuments().then((users) => {
-   
     if (users) {
       const user = users.find(
         (user) =>
@@ -41,7 +42,7 @@ const IcerikSayfa = () => {
     navigation.setOptions({
       headerShown: true,
       
-      headerTitle: '',
+      headerTitle: 'Ziraat & Alışveriş',
       headerRight: () => (
         <Feather 
       style={{
@@ -151,11 +152,7 @@ const IcerikSayfa = () => {
           <View>
             <View className="flex-row items-center justify-between px-4 mt-4 ">
               <Text className="text-[#2C7379] text-bold text-[18px] ">Anasayfa Vitrini </Text>
-              <TouchableOpacity className="flex-row items-center justify-center space-x-1" >
-                <Text className="text-[#2C7379] text-bold text-[18px] ">Keşfet </Text>
-                <FontAwesome name="long-arrow-right" size={24} color="#A0C4c7" />
-
-              </TouchableOpacity>
+             
               
             </View>
             <ScrollView nestedScrollEnabled={true} horizontal={true} showsHorizontalScrollIndicator={false}>

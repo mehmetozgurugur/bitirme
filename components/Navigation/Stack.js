@@ -17,8 +17,9 @@ import CategoryScreenIlac from '../../screens/KategoriSayfaları/Categoryilac';
 import CategoryArazi from '../../screens/KategoriSayfaları/CategoryArazi';
 import CategoryUrun from '../../screens/KategoriSayfaları/CategoryUrun';
 import CategoryArac from '../../screens/KategoriSayfaları/CategoryArac';
-
-
+import FavScreen from '../../screens/FavScreen';
+import HelpScreen from '../../screens/HelpScreen';
+import EditProfile from '../../screens/EditProfile';
 
 
 const Stack = createNativeStackNavigator();
@@ -53,6 +54,9 @@ const Stack = createNativeStackNavigator();
         <Stack.Screen name="CategoryArac" component={CategoryArac} />
         <Stack.Screen name="BottomMenu"  component={BottomMenu}/> 
         <Stack.Screen name='AddProduct' component={AddProduct}/>
+        <Stack.Screen name="FavScreen" component={FavScreen}/>
+        <Stack.Screen name="HelpScreen" component={HelpScreen}/>
+        <Stack.Screen name="EditProfile" component={EditProfile}/>
       </Stack.Navigator>
       
   )
