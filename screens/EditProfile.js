@@ -8,6 +8,7 @@ import {
   Platform,
   Keyboard,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -15,8 +16,9 @@ import CustomButton from "../components/CustomButton/CustomButton";
 import { TextInput } from "react-native-gesture-handler";
 import { collection } from "firebase/firestore";
 import * as ImagePicker from 'expo-image-picker';
-import { auth, getUserDocuments } from "../firebase/firebaseAuth";
+import { auth, getUserDocuments, db } from "../firebase/firebaseAuth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getDatabase, ref, set } from "firebase/database";
 
 const EditProfile = () => {
   const [userName, setUserName] = React.useState("");
@@ -58,22 +60,41 @@ const EditProfile = () => {
 
 
 
+  // const setInfo = async () => {
+  //   const db = getFirestore();
+  //   await setDoc(doc(db, "users", auth.currentUser.uid), {
+  //     displayName: displayName,
+  //     email: email,
+  //     userName: userName,
+  //     phoneNumber: phoneNumber,
+  //     city: city,
+  //     image: image,
+  //   });
+  // };
+
   const setInfo = async () => {
-    const db = getFirestore();
-    await setDoc(collection(db, "users"), {
+    set(ref(db, "users/" + auth.currentUser.uid), {
       displayName: displayName,
-      userName: userName,
       email: email,
+      userName: userName,
       phoneNumber: phoneNumber,
       city: city,
       image: image,
     });
   };
 
+  console.log(auth.currentUser.uid)
+  const getDoc = async () => {
+
+  }
+  
+
 
 
   const ButtonClickEvent = () => {
     setInfo();
+    navigation.navigate("Profil")
+    Alert.alert("Güncelleme", "Profiliniz güncellendi")
   };
 
   const navigation = useNavigation();
@@ -95,11 +116,11 @@ const EditProfile = () => {
           <View className=" flex-1 justify-center bg-white">
             <View className="flex-1 relative items-center mt-20 ">
 
-            <Image
-              className="w-24 h-24  rounded-md items-start justify-center "
-              source={{uri :userData?.image}}
-            />
-              
+              <Image
+                className="w-24 h-24  rounded-md items-start justify-center "
+                source={{ uri: userData?.image }}
+              />
+
               <TouchableOpacity onPress={pickImage}  >
                 <View
 
@@ -133,7 +154,7 @@ const EditProfile = () => {
                 onChangeText={(text) => setUserName(text)}
                 placeholder={userData?.userName}
               />
-              
+
               <TextInput
                 value={phoneNumber}
                 className="pl-4 bg-white w-80 h-10 justify-center mt-4  rounded-md  

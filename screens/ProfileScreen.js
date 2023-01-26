@@ -26,6 +26,8 @@ const ProfileScreen = () => {
     }
   });
 
+
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -56,10 +58,10 @@ const ProfileScreen = () => {
         <View>
           <View className="ml-6 mt-1 flex-row">
             <TouchableOpacity  >
-            <Image
-              className="w-20 h-20  rounded-md items-center justify-center "
-              source={{uri :userData?.image}}
-            /></TouchableOpacity>
+              <Image
+                className="w-20 h-20  rounded-md items-center justify-center "
+                source={{ uri: userData?.image }}
+              /></TouchableOpacity>
             <View className="ml-4 justify-center ">
               <Text className=" text-semibold text-[26px]"> {userData?.displayName}</Text>
               <Text className="ml-2 pt-1">{userData?.email}</Text>
@@ -70,7 +72,7 @@ const ProfileScreen = () => {
         <View className="mt-4 ml-8 space-y-2 space-x-1">
           <View className="flex-row">
             <EvilIcons name="location" size={26} color="black" />
-            <Text className="ml-2">{userData?.city }</Text>
+            <Text className="ml-2">{userData?.city}</Text>
           </View>
           <View className="flex-row ">
             <Ionicons
@@ -100,47 +102,47 @@ const ProfileScreen = () => {
           <View className="">
             <View>
               <Text
-              className="ml-2 mb-1 text-[22px]"
+                className="ml-2 mb-1 text-[22px]"
               >Hesabım</Text>
             </View>
             <View className="grid grid-cols-1 divide-y divide-black">
-          <TouchableOpacity
-          onPress={()=> navigation.navigate("FavScreen")}
-          >
-            <View className="ml-2  flex-row items-center ">
-              <MaterialIcons name="favorite-border" size={24} color="black" />
-              <Text className="ml-2 text-[16px]  text-xl  ">Favorileriniz </Text>
-            </View>
-          </TouchableOpacity>
-        
-          <TouchableOpacity
-          onPress={()=> navigation.navigate("AddProduct")}>
-            <View className="ml-2 mt-2  flex-row items-center ">
-            <Ionicons name="add" size={24} color="black" />
-              <Text className="ml-2 text-[16px] text-xl ">Ürün Ekle </Text>
-            </View>
-          </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("FavScreen")}
+              >
+                <View className="ml-2  flex-row items-center ">
+                  <MaterialIcons name="favorite-border" size={24} color="black" />
+                  <Text className="ml-2 text-[16px]  text-xl  ">Favorileriniz </Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("AddProduct")}>
+                <View className="ml-2 mt-2  flex-row items-center ">
+                  <Ionicons name="add" size={24} color="black" />
+                  <Text className="ml-2 text-[16px] text-xl ">Ürün Ekle </Text>
+                </View>
+              </TouchableOpacity>
 
 
-          <TouchableOpacity
-          onPress={()=> navigation.navigate("HelpScreen")}
-          >
-            <View className="ml-2 mt-2 flex-row items-center ">
-              <MaterialIcons name="support-agent" size={28} color="black" />
+              <TouchableOpacity
+                onPress={() => navigation.navigate("HelpScreen")}
+              >
+                <View className="ml-2 mt-2 flex-row items-center ">
+                  <MaterialIcons name="support-agent" size={28} color="black" />
 
-              <Text className="ml-2 text-[16px]  text-xl">Destek </Text>
-            </View>
-          </TouchableOpacity>
+                  <Text className="ml-2 text-[16px]  text-xl">Destek </Text>
+                </View>
+              </TouchableOpacity>
 
-          <TouchableOpacity
-          onPress={()=> navigation.navigate("EditProfile")}
-          >
-            <View className="ml-2 mt-2 flex-row items-center ">
-              <Ionicons name="settings-outline" size={28} color="black" />
-              <Text className="ml-2 text-[16px] text-xl">Ayarlar </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("EditProfile")}
+              >
+                <View className="ml-2 mt-2 flex-row items-center ">
+                  <Ionicons name="settings-outline" size={28} color="black" />
+                  <Text className="ml-2 text-[16px] text-xl">Ayarlar </Text>
+                </View>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-          </View>
           </View>
         </View>
       </ScrollView>

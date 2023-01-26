@@ -107,9 +107,9 @@ const HelpScreen = () => {
 
          
           <View style={styles.selectors}>
-            {SELECTORS.map((selector) => (
+            {SELECTORS.map((selector,index) => (
               <TouchableOpacity
-                key={selector.title}
+                key={index}
                 onPress={() => setSections([selector.value])}
                
               >

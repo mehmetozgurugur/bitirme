@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, TouchableOpacity,Share } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity,Share, Button } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -123,6 +123,17 @@ const ContentScreen = ({}) => {
         <Text className="mt-4 tracking-wide text-[12px] font-semibold text-[#515151]">
           {item?.description}
         </Text>
+
+        <TouchableOpacity onPress={() => navigation.navigate("BuyScreen")}  >
+    <View 
+    
+    className="bg-[#468286] w-90 h-10 items-center justify-center mt-3 rounded-lg " >
+
+        <Text className="text-[#163d35]"> Satın Al </Text>
+      
+    </View>
+    </TouchableOpacity>
+
 
         <View className="space-y-2 mt-4 bg-gray-200 rounded-2xl px-4 py-2">
           <View className="flex-row space-x-3 items-center">
