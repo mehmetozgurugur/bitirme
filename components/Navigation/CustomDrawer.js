@@ -20,11 +20,6 @@ const CustomDrawer = ( props, {data}) => {
   
 
   getUserDocuments().then((users) => {
-    /*
-    incase sensitive şekilde user varsa user içerisindekilerin emailini
-    auth.currentUser?.email ile karşılaştırıp match eden değeri userData içerisine atıyoruz.
-    ama tabi bu obje olacak find methodu kullanabiliriz
-    */
     if (users) {
       const user = users.find(
         (user) =>
@@ -49,7 +44,7 @@ const CustomDrawer = ( props, {data}) => {
           <Image source={{uri :userData?.image}} className="rounded-full ml-5 w-20 h-20" />
             <View className="ml-4">
             <Text
-            className="text-[22px]"
+            className="text-[18px]"
             >{userData?.displayName}</Text>
             <Text
             className="mt-1 text-[15px]"

@@ -16,11 +16,16 @@ import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../components/CustomButton/CustomButton";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { TextInput } from "react-native-gesture-handler";
-import { collection, doc, getFirestore, addDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getFirestore,
+  addDoc,
+  setDoc,
+} from "firebase/firestore";
 import { auth, createUserDocumentFromAuth } from "../firebase/firebaseAuth";
-import * as ImagePicker from 'expo-image-picker';
-import { MaterialIcons } from '@expo/vector-icons';
-
+import * as ImagePicker from "expo-image-picker";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const SignUpScreen = () => {
   const [userName, setUserName] = React.useState("");
@@ -32,7 +37,7 @@ const SignUpScreen = () => {
   const [city, setCity] = React.useState("");
   const [image, setImage] = useState(null);
   const [isLogin, setIsLogin] = useState("");
-
+  const [userId, setUserId] = useState("");
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -49,13 +54,13 @@ const SignUpScreen = () => {
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
-  }
+  };
 
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        console.log(user);
+        addInfo(auth.currentUser.uid);
       })
       .catch((error) => alert(error.message));
     if (email && password && RePassword) {
@@ -65,13 +70,17 @@ const SignUpScreen = () => {
         alert("Bu alanlar boş bırakılamaz");
       }
     }
-    Alert.alert("Hesabınız Oluşturuldu :)");
-    navigation.navigate("Home");
+
+    // 2 saniye sonra ana sayfaya yönlendir
+    setTimeout(() => {
+      Alert.alert("Hesabınız Oluşturuldu :)");
+      navigation.navigate("Home");
+    }, 2000);
   };
 
-  const addInfo = async () => {
+  const addInfo = async (id) => {
     const db = getFirestore();
-    await addDoc(collection(db, "users"), {
+    await setDoc(doc(db, "users", id), {
       displayName: displayName,
       userName: userName,
       email: email,
@@ -81,11 +90,7 @@ const SignUpScreen = () => {
     });
   };
 
-
-
   const ButtonClickEvent = () => {
-    addInfo();
-
     handleCreateAccount();
   };
 
@@ -96,7 +101,6 @@ const SignUpScreen = () => {
       headerShown: false,
       headerTitle: "",
     });
-
   });
   return (
     <KeyboardAvoidingView
@@ -107,16 +111,14 @@ const SignUpScreen = () => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View className=" flex-1 justify-center bg-white">
             <View className="flex-1 relative items-center ">
+              <Image
+                className="h-24 w-24 border border-black rounded-full mt-6 mb-1"
+                source={{ uri: image }}
+              />
 
-              <Image className="h-24 w-24 border border-black rounded-full mt-6 mb-1" source={{ uri: image }} />
-              
-              <TouchableOpacity onPress={pickImage}  >
-                <View
-
-                  className="bg-[#50e7c9] w-30 h-6 items-center justify-center  rounded-lg " >
-
+              <TouchableOpacity onPress={pickImage}>
+                <View className="bg-[#50e7c9] w-30 h-6 items-center justify-center  rounded-lg ">
                   <Text className="text-[#163d35]"> Bir fotoğraf seç </Text>
-
                 </View>
               </TouchableOpacity>
               <Text className="text-[20px] font-semibold ">

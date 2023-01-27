@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, TouchableOpacity,Share, Button } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity, Share, Button } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,23 +6,27 @@ import { Entypo } from "@expo/vector-icons";
 import { favImage } from "../assets";
 import { FontAwesome } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { auth, getUserDocuments } from "../firebase/firebaseAuth";
+import { auth, getUserDocument, getUserDocuments } from "../firebase/firebaseAuth";
+import { Slice } from "../src/Store/_redux/CardStore/cardSlice";
+import { useDispatch} from "react-redux";
 
-const ContentScreen = ({}) => {
+const ContentScreen = () => {
+  const dispatch = useDispatch()
+  const cartActions = Slice.actions
+
+
   const [userData, setUserData] = React.useState(null);
   const navigation = useNavigation();
   const route = useRoute();
   const item = route?.params;
 
-  getUserDocuments().then((users) => {
-    if (users) {
-      const user = users.find(
-        (user) =>
-          user?.email?.toLowerCase() === auth.currentUser?.email?.toLowerCase()
-      );
+  getUserDocument().then((user) => {
+    if (user) {
       setUserData(user);
     }
   });
+
+
 
   const onShare = async () => {
     try {
@@ -44,6 +48,15 @@ const ContentScreen = ({}) => {
     }
   };
 
+  const handleAddToCart = () => {
+    dispatch(cartActions.add(item))
+    setTimeout(() => {
+      navigation.navigate("BuyScreen")
+    }, 500);
+  }
+
+
+
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -51,6 +64,7 @@ const ContentScreen = ({}) => {
       headerTitle: "",
     });
   }, []);
+
   return (
     <SafeAreaView className=" flex-1 bg-white-200 relative ">
       <ScrollView className="flex-1 px-4 py-4">
@@ -67,7 +81,7 @@ const ContentScreen = ({}) => {
               <Entypo name="chevron-left" size={24} color="black" />
             </TouchableOpacity>
 
-           
+
           </View>
         </View>
 
@@ -86,7 +100,7 @@ const ContentScreen = ({}) => {
 
         <View className="mt-4 flex-row items-center justify-between">
           <View className="flex-row items-center space-x-2">
-          <TouchableOpacity className="bg-red-100 w-12 h-12 rounded-2xl items-center justify-center shadow-md">
+            <TouchableOpacity className="bg-red-100 w-12 h-12 rounded-2xl items-center justify-center shadow-md">
               <Image source={favImage} className="h-8 w-8" />
             </TouchableOpacity>
 
@@ -108,9 +122,9 @@ const ContentScreen = ({}) => {
           </View>
 
           <View className="flex-row items-center space-x-2">
-            <TouchableOpacity 
-            onPress={onShare}
-            className="bg-red-100 w-12 h-12 rounded-2xl items-center justify-center shadow-md">
+            <TouchableOpacity
+              onPress={onShare}
+              className="bg-red-100 w-12 h-12 rounded-2xl items-center justify-center shadow-md">
               <FontAwesome name="share-alt" size={24} color="black" />
             </TouchableOpacity>
 
@@ -124,15 +138,15 @@ const ContentScreen = ({}) => {
           {item?.description}
         </Text>
 
-        <TouchableOpacity onPress={() => navigation.navigate("BuyScreen")}  >
-    <View 
-    
-    className="bg-[#468286] w-90 h-10 items-center justify-center mt-3 rounded-lg " >
+        <TouchableOpacity onPress={handleAddToCart}  >
+          <View
 
-        <Text className="text-[#163d35]"> Satın Al </Text>
-      
-    </View>
-    </TouchableOpacity>
+            className="bg-[#468286] w-90 h-10 items-center justify-center mt-3 rounded-lg " >
+
+            <Text className="text-[#163d35]"> Sepete Ekle </Text>
+
+          </View>
+        </TouchableOpacity>
 
 
         <View className="space-y-2 mt-4 bg-gray-200 rounded-2xl px-4 py-2">

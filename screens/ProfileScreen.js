@@ -5,27 +5,21 @@ import { useNavigation } from "@react-navigation/native";
 import { EvilIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { v4 as uuidv4 } from 'uuid';
-import { auth, getUserDocuments } from "../firebase/firebaseAuth";
-
-
+import { v4 as uuidv4 } from "uuid";
+import { auth, getUserDocument } from "../firebase/firebaseAuth";
 
 const ProfileScreen = () => {
   const [userData, setUserData] = React.useState(null);
   const [image, setImage] = useState(null);
   const navigation = useNavigation();
 
-
-  getUserDocuments().then((users) => {
-    if (users) {
-      const user = users.find(
-        (user) =>
-          user?.email?.toLowerCase() === auth.currentUser?.email?.toLowerCase()
-      );
+  getUserDocument().then((user) => {
+    if (user) {
       setUserData(user);
     }
   });
 
+  console.log(userData);
 
 
   useLayoutEffect(() => {
@@ -53,17 +47,21 @@ const ProfileScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1" >
+    <SafeAreaView className="flex-1">
       <ScrollView>
         <View>
           <View className="ml-6 mt-1 flex-row">
-            <TouchableOpacity  >
+            <TouchableOpacity>
               <Image
                 className="w-20 h-20  rounded-md items-center justify-center "
                 source={{ uri: userData?.image }}
-              /></TouchableOpacity>
+              />
+            </TouchableOpacity>
             <View className="ml-4 justify-center ">
-              <Text className=" text-semibold text-[26px]"> {userData?.displayName}</Text>
+              <Text className=" text-semibold text-[26px]">
+                {" "}
+                {userData?.displayName}
+              </Text>
               <Text className="ml-2 pt-1">{userData?.email}</Text>
             </View>
           </View>
@@ -101,28 +99,32 @@ const ProfileScreen = () => {
         <View className="flex-1 justify-center rounded-lg  m-2 border border-black">
           <View className="">
             <View>
-              <Text
-                className="ml-2 mb-1 text-[22px]"
-              >Hesabım</Text>
+              <Text className="ml-2 mb-1 text-[22px]">Hesabım</Text>
             </View>
             <View className="grid grid-cols-1 divide-y divide-black">
               <TouchableOpacity
                 onPress={() => navigation.navigate("FavScreen")}
               >
                 <View className="ml-2  flex-row items-center ">
-                  <MaterialIcons name="favorite-border" size={24} color="black" />
-                  <Text className="ml-2 text-[16px]  text-xl  ">Favorileriniz </Text>
+                  <MaterialIcons
+                    name="favorite-border"
+                    size={24}
+                    color="black"
+                  />
+                  <Text className="ml-2 text-[16px]  text-xl  ">
+                    Favorileriniz{" "}
+                  </Text>
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => navigation.navigate("AddProduct")}>
+                onPress={() => navigation.navigate("AddProduct")}
+              >
                 <View className="ml-2 mt-2  flex-row items-center ">
                   <Ionicons name="add" size={24} color="black" />
                   <Text className="ml-2 text-[16px] text-xl ">Ürün Ekle </Text>
                 </View>
               </TouchableOpacity>
-
 
               <TouchableOpacity
                 onPress={() => navigation.navigate("HelpScreen")}

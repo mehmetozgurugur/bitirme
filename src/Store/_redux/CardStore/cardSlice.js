@@ -1,8 +1,8 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialCustomerState = {
-  items:[],
-  totalPrice:0
+  items: [],
+  totalPrice: 0
 };
 export const callTypes = {
   list: "list",
@@ -13,11 +13,11 @@ export const Slice = createSlice({
   initialState: initialCustomerState,
   reducers: {
     catchError: (state, action) => {
-         
-      state.error = `${action.type}: ${action.payload.error}`;    
-     
-      if (action.payload.callType === callTypes.list) {       
-        state.listLoading = false;         
+
+      state.error = `${action.type}: ${action.payload.error}`;
+
+      if (action.payload.callType === callTypes.list) {
+        state.listLoading = false;
       } else {
         state.actionsLoading = false;
       }
@@ -25,52 +25,52 @@ export const Slice = createSlice({
     startCall: (state, action) => {
       state.error = null;
       if (action.payload.callType === callTypes.list) {
-        state.listLoading = true;         
+        state.listLoading = true;
       } else {
         state.actionsLoading = true;
       }
     },
-    updateAll: (state,action) =>{
-        state.error = null;
-        state.items = action.payload;
+    updateAll: (state, action) => {
+      state.error = null;
+      state.items = action.payload;
     },
-    add: (state,action) =>{
-        state.error = null;
-        let item = action.payload;
-        let newItems = state.items;
-        let indexToBeAdded = state.items.map((object) => object.id).indexOf(item.id);
-        if(indexToBeAdded == -1){
-            const newItem ={
-                ...item,
-                count:1
-            }
-            newItems.push(newItem);
+    add: (state, action) => {
+      state.error = null;
+      let item = action.payload;
+      let newItems = state.items;
+      let indexToBeAdded = state.items.map((object) => object.id).indexOf(item.id);
+      if (indexToBeAdded == -1) {
+        const newItem = {
+          ...item,
+          count: 1
         }
-        else{
-            newItems[indexToBeAdded].count = newItems[indexToBeAdded].count + 1;
-        }
+        newItems.push(newItem);
+      }
+      else {
+        newItems[indexToBeAdded].count = newItems[indexToBeAdded].count + 1;
+      }
+      state.items = newItems;
+      // setTotalPrice(state,null);
+    },
+    delete: (state, action) => {
+      state.error = null;
+      let item = action.payload;
+      let newItems = state.items;
+      let indexToBeDeleted = state.items.map((object) => object.id).indexOf(item.id);
+      if (indexToBeDeleted != -1) {
+        newItems.splice(indexToBeDeleted, 1);
         state.items = newItems;
-        setTotalPrice(state,null);
+      }
+      setTotalPrice(state, null);
     },
-    delete:(state,action) =>{
-        state.error = null;
-        let item = action.payload;
-        let newItems = state.items;
-        let indexToBeDeleted = state.items.map((object) => object.id).indexOf(item.id);
-        if(indexToBeDeleted != -1){ 
-            newItems.splice(indexToBeDeleted,1);
-            state.items = newItems;
-        }
-        setTotalPrice(state,null);
-    },
-    setTotalPrice :(state,action) =>{
-        state.error = null;
-        let total = 0;
-        let items = state.items;
-        items.forEach(element => {
-            total += element.prize * element.count; 
-        });
-        state.totalPrice = total;
+    setTotalPrice: (state, action) => {
+      state.error = null;
+      let total = 0;
+      let items = state.items;
+      items.forEach(element => {
+        total += element.prize * element.count;
+      });
+      state.totalPrice = total;
     }
   }
 });

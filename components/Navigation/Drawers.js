@@ -13,6 +13,7 @@ import { useColorScheme } from 'react-native';
 import { Switch, TouchableRipple } from 'react-native-paper';
 import { View,Text } from 'react-native-animatable';
 import { StatusBar } from "expo-status-bar";
+import BuyScreen from "../../screens/BuyScreen";
 
 
 const Drawer = createDrawerNavigator();
@@ -52,7 +53,7 @@ const Drawers = () => {
       }}
         /> 
         <Drawer.Screen 
-        name="Profile" 
+        name="Profil" 
         component={ProfileScreen} 
         options={{drawerIcon: ({color}) => 
         (<AntDesign name="user" size={24} color={color} />)
@@ -60,8 +61,8 @@ const Drawers = () => {
       }}
         /> 
         <Drawer.Screen 
-        name="Ürünler" 
-        component={ContentScreen}
+        name="Sepetim" 
+        component={BuyScreen}
         options={{drawerIcon: ({color}) => 
         (<AntDesign name="shoppingcart" size={24} color={color}/>)
       

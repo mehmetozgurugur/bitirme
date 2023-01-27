@@ -12,12 +12,12 @@ import {
 import {
   getFirestore,
   doc,
-  getDoc,
   setDoc,
   collection,
   writeBatch,
   query,
   getDocs,
+  getDoc,
 } from "firebase/firestore";
 
 export const firebaseConfig = {
@@ -46,10 +46,22 @@ export const getUserDocuments = async () => {
   return usersList;
 };
 
+// uid kullanarak user collection'undan veri çek
+export const getUserDocument = async () => {
+  const userRef = doc(db, "users", auth.currentUser.uid);
+  const userSnapshot = await getDoc(userRef);
+  const user = userSnapshot.data();
+
+  return user;
+};
+
 export const getProductDocuments = async () => {
   const productRef = collection(db, "product");
   const productSnapshot = await getDocs(productRef);
-  const productList = productSnapshot.docs.map((doc) => doc.data());
+  const productList = productSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 
   return productList;
 };
@@ -57,7 +69,10 @@ export const getProductDocuments = async () => {
 export const getProductIlacDocuments = async () => {
   const productIlacRef = collection(db, "productIlac");
   const productIlacSnapshot = await getDocs(productIlacRef);
-  const productIlacList = productIlacSnapshot.docs.map((doc) => doc.data());
+  const productIlacList = productIlacSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 
   return productIlacList;
 };
@@ -65,14 +80,25 @@ export const getProductIlacDocuments = async () => {
 export const getProductAracDocuments = async () => {
   const productAracRef = collection(db, "ProductArac");
   const productAracSnapshot = await getDocs(productAracRef);
-  const productAracList = productAracSnapshot.docs.map((doc) => doc.data());
+  const productAracList = productAracSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 
   return productAracList;
 };
 export const getProductUrunDocuments = async () => {
   const productUrunRef = collection(db, "ProductUrun");
   const productUrunSnapshot = await getDocs(productUrunRef);
-  const productUrunList = productUrunSnapshot.docs.map((doc) => doc.data());
+  const productUrunList = productUrunSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 
   return productUrunList;
+};
+
+export const updateUsers = async (data) => {
+  const usersRef = doc(db, "users", auth.currentUser.uid);
+  await setDoc(usersRef, data);
 };

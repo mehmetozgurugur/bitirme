@@ -21,7 +21,7 @@ import FavScreen from '../../screens/FavScreen';
 import HelpScreen from '../../screens/HelpScreen';
 import EditProfile from '../../screens/EditProfile';
 import BuyScreen from '../../screens/BuyScreen';
-
+import CartScreen from '../../screens/CartScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -59,6 +59,7 @@ const Stack = createNativeStackNavigator();
         <Stack.Screen name="HelpScreen" component={HelpScreen}/>
         <Stack.Screen name="EditProfile" component={EditProfile}/>
         <Stack.Screen name="BuyScreen" component={BuyScreen}/>
+        <Stack.Screen name="CartScreen" component={CartScreen} />
 
       </Stack.Navigator>
       

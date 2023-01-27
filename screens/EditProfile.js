@@ -15,31 +15,39 @@ import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../components/CustomButton/CustomButton";
 import { TextInput } from "react-native-gesture-handler";
 import { collection } from "firebase/firestore";
-import * as ImagePicker from 'expo-image-picker';
-import { auth, getUserDocuments, db } from "../firebase/firebaseAuth";
+import * as ImagePicker from "expo-image-picker";
+import {
+  auth,
+  db,
+  updateUsers,
+  getUserDocument,
+} from "../firebase/firebaseAuth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getDatabase, ref, set } from "firebase/database";
 
 const EditProfile = () => {
-  const [userName, setUserName] = React.useState("");
-  const [displayName, setDisplayName] = React.useState("");
-  const [email, setEmail] = React.useState(null);
-  const [password, setPassword] = React.useState(null);
-  const [RePassword, setRePassword] = React.useState(null);
-  const [phoneNumber, setPhoneNumber] = React.useState("");
-  const [city, setCity] = React.useState("");
-  const [image, setImage] = useState(null);
   const [userData, setUserData] = React.useState(null);
 
-  getUserDocuments().then((users) => {
-    if (users) {
-      const user = users.find(
-        (user) =>
-          user?.email?.toLowerCase() === auth.currentUser?.email?.toLowerCase()
-      );
+  getUserDocument().then((user) => {
+    if (user) {
       setUserData(user);
     }
   });
+
+  console.log(userData)
+
+  const [userName, setUserName] = React.useState(userData?.userName || "");
+  const [displayName, setDisplayName] = React.useState(
+    userData?.displayName || ""
+  );
+  const [email, setEmail] = React.useState(userData?.email || null);
+  const [password, setPassword] = React.useState(null);
+  const [RePassword, setRePassword] = React.useState(null);
+  const [phoneNumber, setPhoneNumber] = React.useState(
+    userData?.phoneNumber || ""
+  );
+  const [city, setCity] = React.useState(userData?.city || "");
+  const [image, setImage] = useState(userData?.image || null);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -51,50 +59,24 @@ const EditProfile = () => {
       canceled: false,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
-  }
-
-
-
-  // const setInfo = async () => {
-  //   const db = getFirestore();
-  //   await setDoc(doc(db, "users", auth.currentUser.uid), {
-  //     displayName: displayName,
-  //     email: email,
-  //     userName: userName,
-  //     phoneNumber: phoneNumber,
-  //     city: city,
-  //     image: image,
-  //   });
-  // };
-
-  const setInfo = async () => {
-    set(ref(db, "users/" + auth.currentUser.uid), {
-      displayName: displayName,
-      email: email,
-      userName: userName,
-      phoneNumber: phoneNumber,
-      city: city,
-      image: image,
-    });
   };
 
-  console.log(auth.currentUser.uid)
-  const getDoc = async () => {
-
-  }
-  
-
-
+  const data = {
+    displayName: displayName || userData?.displayName,
+    email: email || userData?.email,
+    userName: userName || userData?.userName,
+    phoneNumber: phoneNumber || userData?.phoneNumber,
+    city: city || userData?.city,
+    image: image || userData?.image,
+  };
 
   const ButtonClickEvent = () => {
-    setInfo();
-    navigation.navigate("Profil")
-    Alert.alert("Güncelleme", "Profiliniz güncellendi")
+    updateUsers(data);
+    navigation.navigate("Profil");
+    Alert.alert("Güncelleme", "Profiliniz güncellendi");
   };
 
   const navigation = useNavigation();
@@ -104,7 +86,6 @@ const EditProfile = () => {
       headerShown: false,
       headerTitle: "",
     });
-
   });
   return (
     <KeyboardAvoidingView
@@ -115,19 +96,14 @@ const EditProfile = () => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View className=" flex-1 justify-center bg-white">
             <View className="flex-1 relative items-center mt-20 ">
-
               <Image
                 className="w-24 h-24  rounded-md items-start justify-center "
                 source={{ uri: userData?.image }}
               />
 
-              <TouchableOpacity onPress={pickImage}  >
-                <View
-
-                  className="bg-[#50e7c9] mt-1 w-30 h-6 items-center justify-center  rounded-lg " >
-
+              <TouchableOpacity onPress={pickImage}>
+                <View className="bg-[#50e7c9] mt-1 w-30 h-6 items-center justify-center  rounded-lg ">
                   <Text className="text-[#163d35]"> Bir fotoğraf seç </Text>
-
                 </View>
               </TouchableOpacity>
               <Text className="text-[20px] font-semibold ">
@@ -170,7 +146,10 @@ const EditProfile = () => {
                 placeholder={userData?.city}
               />
 
-              <CustomButton texta="Profili Güncelle" onPress={ButtonClickEvent} />
+              <CustomButton
+                texta="Profili Güncelle"
+                onPress={ButtonClickEvent}
+              />
             </View>
           </View>
         </TouchableWithoutFeedback>
