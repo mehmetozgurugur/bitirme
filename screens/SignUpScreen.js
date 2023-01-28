@@ -8,7 +8,6 @@ import {
   Platform,
   Keyboard,
   Alert,
-  Touchable,
   TouchableOpacity,
 } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
@@ -17,15 +16,13 @@ import CustomButton from "../components/CustomButton/CustomButton";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { TextInput } from "react-native-gesture-handler";
 import {
-  collection,
   doc,
   getFirestore,
-  addDoc,
   setDoc,
 } from "firebase/firestore";
 import { auth, createUserDocumentFromAuth } from "../firebase/firebaseAuth";
 import * as ImagePicker from "expo-image-picker";
-import { MaterialIcons } from "@expo/vector-icons";
+
 
 const SignUpScreen = () => {
   const [userName, setUserName] = React.useState("");
@@ -36,8 +33,6 @@ const SignUpScreen = () => {
   const [phoneNumber, setPhoneNumber] = React.useState("");
   const [city, setCity] = React.useState("");
   const [image, setImage] = useState(null);
-  const [isLogin, setIsLogin] = useState("");
-  const [userId, setUserId] = useState("");
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library

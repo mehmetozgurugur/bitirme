@@ -34,35 +34,51 @@ const dataYıl = [
 
 ];
 
-const handleCheckOut=()=>{
-Alert.alert("Sipariş","Teşekkür ederiz")
-}
+
+
 
 const CartScreen = () => {
   const navigation = useNavigation();
   const [selected, setSelected] = React.useState("");
-  const [toggleCheckBox, setToggleCheckBox] = useState(false)
-  return (
+  const [cardId, setCardId] = React.useState("")
+  const [month, setMonth] = React.useState("")
+  const [year, setYear] = React.useState("")
+  const [cvv, setCvv] = React.useState("")
+
+  const handleCheckOut = async () => {
+  if (cardId === "" || setSelected ==="" || cvv === "" ) {
+    console.log("tık")
+    Alert.alert("Hata", "Hepsi doldurulmalı")
+  }
+  else {
+    navigation.replace("CartScreen")
+    Alert.alert("Sipariş","Teşekkür ederiz")
+  }
+  }
+   return (
+    
+
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View className="flex-1" >
-      <View>
-        <Image   />
-      </View>
-      <View className="border border-black w-full h-1/3 " >
+    <View className="flex-1 items-center bg-slate-100 " >
+      <View className="border border-black w-11/12 h-1/3 rounded-lg mt-20 bg-white " >
         <Text className="font-medium text-[20px] " >Kart Bilgileri</Text>
 
         <View className="ml-2 mt-2 "  >
           <Text>Kart Numarası</Text>
           <TextInput
-            keyboardType='numeric'
+            keyboardType = 'numeric'
+            value={cardId}
+            onChange={(text) => setCardId(text)}
+            placeholder='_____-_____-_____-_____'
+            placeholderTextColor="black"  
             maxLength={16}
-            className="mt-1  h-11 w-11/12 border border-black rounded-xl" ></TextInput>
+            className="mt-1 pl-2  h-11 w-11/12 border border-black rounded-xl" ></TextInput>
         </View>
         <Text className="ml-2 m-2" >Son Kullanma Tarihi</Text>
         <View className="h-full w-18 flex-row m-1  " >
 
           <SelectList
-
+            value={month}
             placeholder="AY"
             setSelected={(val) => setSelected(val)}
             data={dataAy}
@@ -70,22 +86,22 @@ const CartScreen = () => {
           />
 
           <SelectList
-
+            value={year}
             placeholder="YIL"
             setSelected={(val) => setSelected(val)}
             data={dataYıl}
             save="value"
           />
-          <Text className="ml-16" >CVV</Text>
+          <Text className="ml-12" >CVV</Text>
           <TextInput
-            keyboardType='numeric'
+            keyboardType = 'numeric'
+            value={cvv}
+            onChange={(text) => setCvv(text)}
             maxLength={3}
-            className=" border border-black rounded-xl h-11 w-1/5 justify-center " ></TextInput>
+            className=" border border-black rounded-xl h-11 w-1/5 justify-center pl-2 " ></TextInput>
 
         </View>
-       
-      </View> 
-      <View>
+       <View className="  bottom-0" >
         <TouchableOpacity onPress={()=>navigation.navigate("IcerikSayfa")} className="items-center" >
           <View className="bg-[#321861] w-80 h-10 items-center justify-center mt-3 rounded-lg " >
             <Text className="text-[#e9f0ee]"> Alışverişe Devam Et </Text>
@@ -97,6 +113,8 @@ const CartScreen = () => {
           </View>
         </TouchableOpacity>
         </View>
+      </View> 
+      
     </View>
     </TouchableWithoutFeedback>
   )

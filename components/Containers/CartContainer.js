@@ -9,6 +9,7 @@ import {
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import NumberProcess from '../../components/Navigation/NumberProcess'
+import { EvilIcons } from '@expo/vector-icons';
 
 const CartContainer = ({ cartItem }) => {
 
@@ -33,7 +34,8 @@ const CartContainer = ({ cartItem }) => {
                 <View>
                     <Text className="p-2 truncate " >{cartItem?.description}</Text>
                 </View>
-                <View className="absolute bottom-2 left-3" >
+                <View className="absolute bottom-2 left-3  " >
+                    
                     <NumberProcess />
                 </View>
                 <View className="absolute bottom-3 right-7 " >

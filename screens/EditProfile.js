@@ -32,12 +32,10 @@ const EditProfile = () => {
   console.log(userData)
 
   const [userName, setUserName] = React.useState(userData?.userName || "");
-  const [displayName, setDisplayName] = React.useState(
-    userData?.displayName || ""
+  const [displayName, setDisplayName] = React.useState(userData?.displayName || ""
   );
   const [email, setEmail] = React.useState(userData?.email || null);
-  const [phoneNumber, setPhoneNumber] = React.useState(
-    userData?.phoneNumber || ""
+  const [phoneNumber, setPhoneNumber] = React.useState(userData?.phoneNumber || ""
   );
   const [city, setCity] = React.useState(userData?.city || "");
   const [image, setImage] = useState(userData?.image || null);

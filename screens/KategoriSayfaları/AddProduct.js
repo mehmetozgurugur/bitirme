@@ -45,9 +45,7 @@ const AddProduct = () => {
   const AddProductInfo = async () => {
     if (image === "" || Name === "" || prize === "" || address === "" || selected === "" || description === "") {
       console.log("tıkladın")
-      Alert.alert("Hata", "Hepsi doldurulmalı"
-
-      );
+      Alert.alert("Hata", "Hepsi doldurulmalı");
     }
     else {
       navigation.replace("AddProduct")
