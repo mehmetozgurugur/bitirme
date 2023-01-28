@@ -14,16 +14,11 @@ import React, { useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../components/CustomButton/CustomButton";
 import { TextInput } from "react-native-gesture-handler";
-import { collection } from "firebase/firestore";
 import * as ImagePicker from "expo-image-picker";
 import {
-  auth,
-  db,
   updateUsers,
   getUserDocument,
 } from "../firebase/firebaseAuth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { getDatabase, ref, set } from "firebase/database";
 
 const EditProfile = () => {
   const [userData, setUserData] = React.useState(null);
@@ -41,8 +36,6 @@ const EditProfile = () => {
     userData?.displayName || ""
   );
   const [email, setEmail] = React.useState(userData?.email || null);
-  const [password, setPassword] = React.useState(null);
-  const [RePassword, setRePassword] = React.useState(null);
   const [phoneNumber, setPhoneNumber] = React.useState(
     userData?.phoneNumber || ""
   );

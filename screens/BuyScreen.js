@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Button,
 } from 'react-native'
-import React from 'react'
+import React, {useLayoutEffect} from 'react'
 import { useNavigation } from '@react-navigation/native'
 import NumberProcess from '../components/Navigation/NumberProcess'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -17,21 +17,31 @@ import { useSelector } from "react-redux";
 const BuyScreen = () => {
   const cartItems = useSelector((state) => state?.card?.items)
   const navigation = useNavigation();
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: "Sepetim",
+    });
+  }, []);
   return (
 
-<ScrollView className="flex-1" >
-    <View className="flex-1 bg-white items-center " >
+
+    <View className="flex-1 bg-white " >
+      <ScrollView className="flex-1 w-full  " >
+        <View className="items-center" >
       {cartItems.map((cartItem) => (
         <>
           <CartContainer cartItem={cartItem} />
         </>
       ))}
-
-      <View className="sticky bottom-0 border border-violet-700 h-1/8 w-full rounded-lg" >
+      </View>
+     
+      </ScrollView>
+       <View className="sticky bottom-0 border border-violet-700 h-1/8 w-full rounded-lg" >
         <View className="flex-row m-1 items-center justify-between" >
 
           <View>
-            <Text>Total Price</Text>
+            <Text>0₺</Text>
           </View>
 
           <TouchableOpacity onPress={() => navigation.navigate("CartScreen")}  >
@@ -43,9 +53,8 @@ const BuyScreen = () => {
 
         </View>
       </View>
-
     </View>
-    </ScrollView>
+    
 
   )
 }

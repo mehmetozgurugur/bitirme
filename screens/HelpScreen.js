@@ -1,10 +1,5 @@
-// Example of Collapsible/Accordion/Expandable List View in React Native
-// https://aboutreact.com/collapsible-accordion-expandable-view/
-
-// import React in our code
-import React, { useState } from 'react';
-
-// import all the components we are going to use
+import React, { useState,useLayoutEffect } from 'react';
+import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   SafeAreaView,
   Switch,
@@ -16,59 +11,54 @@ import {
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
-
-import Collapsible from 'react-native-collapsible';
-
 import Accordion from 'react-native-collapsible/Accordion';
 
 const CONTENT = [
   {
-    title: 'Terms and Conditions',
+    title: 'Kullanım Koşulları',
     content:
-      'The following terms and conditions, together with any referenced documents (collectively, "Terms of Use") form a legal agreement between you and your employer, employees, agents, contractors and any other entity on whose behalf you accept these terms (collectively, “you” and “your”), and ServiceNow, Inc. (“ServiceNow,” “we,” “us” and “our”).',
+      '',
   },
   {
-    title: 'Privacy Policy',
+    title: 'Güvenlik ve Gizlilik',
     content:
-      'A Privacy Policy agreement is the agreement where you specify if you collect personal data from your users, what kind of personal data you collect and what you do with that data.',
+      '',
   },
   {
-    title: 'Return Policy',
+    title: 'İade Politikası',
     content:
-      'Our Return & Refund Policy template lets you get started with a Return and Refund Policy agreement. This template is free to download and use.According to TrueShip study, over 60% of customers review a Return/Refund Policy before they make a purchasing decision.',
+      '',
   },
 ];
 
 
 const SELECTORS = [
-  { title: 'T&C', value: 0 },
-  { title: 'Privacy Policy', value: 1 },
-  { title: 'Return Policy', value: 2 },
-  { title: 'Reset all' },
+  { title: 'KK', value: 0 },
+  { title: 'Güvenlik ve Gizlilik', value: 1 },
+  { title: 'İade Politikası', value: 2 },
+  { title: 'Kapat' },
 ];
 
 const HelpScreen = () => {
+  const navigation = useNavigation();
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: "Destek",
+    });
+  }, []);
 
-  const [activeSections, setActiveSections] = useState([]);
-  // Collapsed condition for the single collapsible
-  const [collapsed, setCollapsed] = useState(true);
-  // MultipleSelect is for the Multiple Expand allowed
-  // True: Expand multiple at a time
-  // False: One can be expand at a time
-  const [multipleSelect, setMultipleSelect] = useState(false);
-
-  const toggleExpanded = () => {
-    //Toggling the state of single Collapsible
-    setCollapsed(!collapsed);
+const [activeSections, setActiveSections] = useState([]);
+const [collapsed, setCollapsed] = useState(true);
+const [multipleSelect, setMultipleSelect] = useState(false);
+const toggleExpanded = () => {
+  setCollapsed(!collapsed);
   };
-
-  const setSections = (sections) => {
-    //setting up a active section state
-    setActiveSections(sections.includes(undefined) ? [] : sections);
+const setSections = (sections) => {
+  setActiveSections(sections.includes(undefined) ? [] : sections);
   };
-
-  const renderHeader = (section, _, isActive) => {
-    //Accordion Header view
+const renderHeader = (section, _, isActive) => {
+ 
     return (
       <Animatable.View
         duration={400}
@@ -102,7 +92,7 @@ const HelpScreen = () => {
 
 
           <Text style={styles.selectTitle}>
-            Please select below option to expand
+           Lütfen okumak istediğiniz maddeyi seçin.
           </Text>
 
          
